@@ -1,6 +1,8 @@
 package models
 
-import "github.com/google/uuid"
+import (
+	"github.com/google/uuid"
+)
 
 type Post struct {
 	UUID      string `json:"uuid" gorm:"primaryKey"`

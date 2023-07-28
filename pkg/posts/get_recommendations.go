@@ -5,10 +5,8 @@ import (
 	"net/http"
 	"redditClone/pkg/common/models"
 	"strconv"
-	"time"
 
 	"github.com/gin-gonic/gin"
-	"gorm.io/gorm"
 )
 
 func (h handler) GetRecommendations(c *gin.Context) {
@@ -55,14 +53,4 @@ func (h handler) GetRecommendations(c *gin.Context) {
 		"items": &Posts,
 	})
 	return
-}
-
-func CreatedWithinPastDay(db *gorm.DB) *gorm.DB {
-	currentTime := time.Now()
-	dayInHours := 24 * time.Hour
-	return db.Where("? - created_at < ?", currentTime, dayInHours)
-}
-
-func SortByUpVotes(db *gorm.DB) *gorm.DB {
-	return db.Order("votes")
 }

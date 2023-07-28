@@ -44,14 +44,14 @@ type Vote_Relations struct {
 }
 
 type Comment struct {
-	UUID      string    `json:"uuid" gorm:"primaryKey"`
-	Parent    string    `json:"parent"`
-	Post      string    `json:"post"`
-	VoteCount int       `json:"votes"`
-	Flairs    string    `json:"flairs"`
-	Author    string    `json:"author"`
-	UpdatedAt time.Time `json:"updated_at"`
-	CreatedAt time.Time `json:"created_at"`
+	UUID       string    `json:"uuid" gorm:"primaryKey"`
+	Parent     string    `json:"parent"`
+	ParentType string    `json:"parent_type"`
+	VoteCount  int       `json:"votes"`
+	Flairs     string    `json:"flairs"`
+	Author     string    `json:"author"`
+	UpdatedAt  time.Time `json:"updated_at"`
+	CreatedAt  time.Time `json:"created_at"`
 }
 
 func (C Comment) New() Comment {
