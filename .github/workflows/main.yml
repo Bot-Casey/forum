@@ -8,16 +8,24 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Set up Go
-        uses: actions/setup-go@v4
+      - name: Buildah Action
+        uses: redhat-actions/buildah-build@v2
         with:
-          go-version: '1.20'
-          
-      - name: Download dependencies
-        run: go get .
-        working-directory: ./cmd
+          image: backend
+          tags: lastest ${{ github.sha }}
+          containerfiles: |
+            ./backend.Dockerfile
 
-      - name: Build
-        run: go build -o ./server.out .
-        working-directory: ./cmd
+      # - name: Set up Go
+      #   uses: actions/setup-go@v4
+      #   with:
+      #     go-version: '1.20'
+          
+      # - name: Download dependencies
+      #   run: go get .
+      #   working-directory: ./cmd
+
+      # - name: Build
+      #   run: go build -o ./server.out .
+      #   working-directory: ./cmd
         
