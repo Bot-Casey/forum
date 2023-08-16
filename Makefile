@@ -12,7 +12,7 @@ start: ## starts go service
 
 .PHONY: build
 build: ## compiles code
-	go mod tidy
+	docker-compose build backend
 
 .PHONY: clean
 clean: ## stops containers and prunes them
