@@ -3,6 +3,7 @@ services:
     depends_on:
       - 'database'
     build:
+      context: ./
       dockerfile: ./backend.Dockerfile
   database: 
     image: postgres:14.1-alpine
