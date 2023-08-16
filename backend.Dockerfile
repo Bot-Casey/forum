@@ -1,9 +1,8 @@
 FROM golang:1.20 as builder
-COPY ./* /build/forum-backend
+COPY ./ /build/forum-backend
 WORKDIR /build/forum-backend/cmd
 # ENV GOROOT=/build/forum-backend/cmd
-RUN ls
-RUN ls /build/forum-backend
+RUN go get .
 RUN go build -o ./backend.out .
 
 FROM scratch
