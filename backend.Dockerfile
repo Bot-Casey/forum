@@ -1,6 +1,6 @@
 FROM golang:1.20 as builder
-COPY ./* ./
-RUN go mod tidy
+COPY ./* ./forum-backend
+WORKDIR ./forum-backend
 RUN go build -o /bin/backend cmd/main.go
 
 FROM scratch
