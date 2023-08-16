@@ -1,6 +1,6 @@
 FROM golang:1.20 as builder
 WORKDIR /src
-COPY ./*
+COPY ./* ./
 RUN go build -o /bin/backend ./cmd/main.go
 
 FROM scratch
