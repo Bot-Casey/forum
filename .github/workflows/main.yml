@@ -23,6 +23,7 @@ jobs:
           tags: ${{ env.IMAGE_TAGS }}
           containerfiles: |
             ./backend.Dockerfile
+          oci: true
 
       - name: Push To GHCR
         uses: redhat-actions/push-to-registry@v2
