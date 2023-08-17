@@ -25,7 +25,7 @@ jobs:
             ./backend.Dockerfile
 
       - name: Push To GHCR
-        uses: ./
+        uses: redhat-actions/push-to-registry@v2
         id: push
         with:
           image: ${{ steps.build_image.outputs.image }}
