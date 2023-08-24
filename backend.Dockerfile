@@ -6,7 +6,7 @@ RUN go get .
 RUN go build -o ./backend.out .
 
 FROM scratch
-COPY --from=builder /build/forum-backend/cmd/backend.out /bin/hello
+COPY --from=builder /build/forum-backend/cmd/backend.out /bin/backend.out
 EXPOSE 3000
 
 CMD ["/bin/backend.out"]
