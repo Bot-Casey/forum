@@ -7,4 +7,6 @@ RUN go build -o ./backend.out .
 
 FROM scratch
 COPY --from=builder /build/forum-backend/cmd/backend.out /bin/hello
+EXPOSE 3000
+
 CMD ["/bin/backend.out"]
