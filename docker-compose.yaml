@@ -1,8 +1,14 @@
 services:
+  backend:
+    depends_on:
+      - 'database'
+    build:
+      context: ./
+      dockerfile: ./backend.Dockerfile
   database: 
     image: postgres:14.1-alpine
     ports: 
-      - "5432:5432"
+      - '5432:5432'
     environment:
       - POSTGRES_PASSWORD=test
       - POSTGRES_USER=test
