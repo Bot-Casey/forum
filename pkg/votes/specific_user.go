@@ -10,14 +10,14 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type AddVoteRequestBody struct {
+type requestBody struct {
 	Resource      string                  `json:"resource"`
 	Resource_Type Vote.Enum_resource_type `json:"resource_type"`
 	User          string                  `json:""`
 }
 
-func (h handler) AddVote(c *gin.Context) {
-	body := AddVoteRequestBody{}
+func (h handler) getVoteByUser(c *gin.Context) {
+	body := requestBody{}
 
 	if err := c.BindJSON(&body); err != nil {
 		c.AbortWithError(http.StatusBadRequest, err)
