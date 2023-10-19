@@ -4,7 +4,8 @@ import (
 	"errors"
 	"net/http"
 
-	"redditClone/pkg/common/models"
+	Post "redditClone/pkg/common/models/posts"
+	Vote "redditClone/pkg/common/models/votes"
 
 	"github.com/gin-gonic/gin"
 )
@@ -28,8 +29,8 @@ func (r enum_resource_type) String() (string, error) {
 
 type AddVoteRequestBody struct {
 	Resource      string             `json:"resource"`
-	Resource_Type enum_resource_type `json:"Resource_type"`
-	User          string             `json:"User"`
+	Resource_Type enum_resource_type `json:"resource_type"`
+	User          string             `json:""`
 }
 
 func (h handler) AddVote(c *gin.Context) {
@@ -42,18 +43,17 @@ func (h handler) AddVote(c *gin.Context) {
 
 	resource_type, err := enum_resource_type.String(body.Resource_Type)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, "{error: invalid resource_type}")
 		c.AbortWithError(http.StatusBadRequest, errors.New("invalid resource_type"))
 		return
 	}
 
-	var Vote models.Vote_Relations
+	var Vote Vote.Vote_Relations
 
 	Vote.Resource = body.Resource
 	Vote.User = body.User
 	Vote.Resource_Type = resource_type
 
-	var Post models.Post
+	var Post Post.Post
 	Post.UUID = Vote.Resource
 
 	if result := h.DB.First(&Post); result.Error != nil {
@@ -69,9 +69,10 @@ func (h handler) AddVote(c *gin.Context) {
 	}
 
 	if result := h.DB.Create(&Vote); result.Error != nil {
-		c.AbortWithError(http.StatusInternalServerError, result.Error)
+		c.Status(http.StatusAlreadyReported)
 		return
 	}
 
 	c.JSON(http.StatusCreated, &Vote)
+	return
 }

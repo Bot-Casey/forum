@@ -2,8 +2,7 @@ package Posts
 
 import (
 	"net/http"
-
-	"redditClone/pkg/common/models"
+	Post "redditClone/pkg/common/models/posts"
 
 	"github.com/gin-gonic/gin"
 )
@@ -11,9 +10,9 @@ import (
 func (h handler) DeletePost(c *gin.Context) {
 	id := c.Param("id")
 
-	var Post models.Post
+	Post := Post.New()
 
-	if result := h.DB.First(&Post, id); result.Error != nil {
+	if result := h.DB.First(Post, id); result.Error != nil {
 		c.AbortWithError(http.StatusNotFound, result.Error)
 		return
 	}
@@ -21,4 +20,5 @@ func (h handler) DeletePost(c *gin.Context) {
 	h.DB.Delete(&Post)
 
 	c.Status(http.StatusOK)
+	return
 }

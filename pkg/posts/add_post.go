@@ -2,7 +2,7 @@ package Posts
 
 import (
 	"net/http"
-	Posts "redditClone/pkg/common/models/posts"
+	Post "redditClone/pkg/common/models/posts"
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
@@ -23,15 +23,16 @@ func (h handler) AddPost(c *gin.Context) {
 		return
 	}
 
-	Post := Posts.New()
+	Post := Post.New()
 	Post.Author = uuid.New().String()
 	Post.Title = body.Title
 	Post.Content = body.Content
 
 	if result := h.DB.Create(&Post); result.Error != nil {
-		c.AbortWithError(http.StatusNotFound, result.Error)
+		c.AbortWithError(http.StatusUnprocessableEntity, result.Error)
 		return
 	}
 
 	c.JSON(http.StatusCreated, &Post)
+	return
 }

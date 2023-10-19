@@ -3,7 +3,10 @@ package db
 import (
 	"log"
 
-	"redditClone/pkg/common/models"
+	Comment "redditClone/pkg/common/models/comments"
+	Post "redditClone/pkg/common/models/posts"
+	User "redditClone/pkg/common/models/users"
+	Vote "redditClone/pkg/common/models/votes"
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -16,8 +19,10 @@ func Init(url string) *gorm.DB {
 		log.Fatalln(err)
 	}
 
-	db.AutoMigrate(&models.Post{})
-	db.AutoMigrate(&models.Vote_Relations{})
+	db.AutoMigrate(Post.New())
+	db.AutoMigrate(Comment.New())
+	db.AutoMigrate(Vote.New())
+	db.AutoMigrate(User.New())
 
 	return db
 }

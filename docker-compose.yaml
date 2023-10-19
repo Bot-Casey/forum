@@ -6,7 +6,7 @@ services:
       context: ./
       dockerfile: ./backend.Dockerfile
   database: 
-    image: postgres:14.1-alpine
+    image: postgres:12-bullseye
     ports: 
       - '5432:5432'
     environment:

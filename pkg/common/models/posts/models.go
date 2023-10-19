@@ -17,6 +17,8 @@ type Post struct {
 	UpdatedAt *time.Time `json:"updated_at"`
 }
 
+type Posts []Post
+
 func New() Post {
 	return Post{
 		UUID:      uuid.New().String(),

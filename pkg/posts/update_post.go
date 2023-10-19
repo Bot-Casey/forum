@@ -2,8 +2,7 @@ package Posts
 
 import (
 	"net/http"
-
-	"redditClone/pkg/common/models"
+	Post "redditClone/pkg/common/models/posts"
 
 	"github.com/gin-gonic/gin"
 )
@@ -24,16 +23,25 @@ func (h handler) UpdatePost(c *gin.Context) {
 		return
 	}
 
-	var Post models.Post
+	Post := Post.New()
+	Post.UUID = id
 
-	if result := h.DB.First(&Post, id); result.Error != nil {
+	if result := h.DB.First(&Post); result.Error != nil {
 		c.AbortWithError(http.StatusNotFound, result.Error)
 		return
 	}
 
-	Post.Content = body.Content
-	Post.Flairs = body.Flairs
-	Post.Title = body.Title
+	if body.Content != "" {
+		Post.Content = body.Content
+	}
+
+	if body.Flairs != "" {
+		Post.Flairs = body.Flairs
+	}
+
+	if body.Title != "" {
+		Post.Title = body.Title
+	}
 
 	h.DB.Save(&Post)
 

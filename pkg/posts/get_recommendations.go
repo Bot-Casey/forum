@@ -3,7 +3,7 @@ package Posts
 import (
 	"errors"
 	"net/http"
-	"redditClone/pkg/common/models"
+	Post "redditClone/pkg/common/models/posts"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
@@ -11,18 +11,20 @@ import (
 
 func (h handler) GetRecommendations(c *gin.Context) {
 	result := h.DB
-	limit := 1
+	limit := 0
 
 	if query, err := c.GetQuery("limit"); !err {
 		c.AbortWithError(http.StatusBadRequest, errors.New("limit not set"))
 		return
-	} else if converted, err := strconv.Atoi(query); err != nil {
+	} else if limit, err := strconv.Atoi(query); err != nil {
 		c.AbortWithError(http.StatusBadRequest, errors.New("limit not valid"))
 		return
-	} else {
-		limit = converted
-		result.Limit(limit)
+	} else if limit > 100 {
+		c.AbortWithError(http.StatusBadRequest, errors.New("limit greater than 100"))
+		return
 	}
+
+	result.Limit(limit)
 
 	if query, err := c.GetQuery("filter"); !err {
 		switch query {
@@ -33,16 +35,17 @@ func (h handler) GetRecommendations(c *gin.Context) {
 		case "new":
 			result.Where("? - ")
 		default:
-			c.AbortWithStatus(
+			c.AbortWithError(
 				http.StatusBadRequest,
+				errors.New("filter not valid (hot|votes|new)"),
 			)
 			return
 		}
 	}
 
-	var Posts []models.Post
+	Posts := Post.Posts{}
 
-	result.Limit(limit).Find(&Posts)
+	result.Find(&Posts)
 
 	if result.Error != nil {
 		c.AbortWithStatus(http.StatusNotFound)

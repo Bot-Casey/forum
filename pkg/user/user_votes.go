@@ -1,14 +1,18 @@
-package Posts
+package 
 
 import (
 	"net/http"
-	Post "redditClone/pkg/common/models/posts"
+
+	"redditClone/pkg/common/models/votes"
+	"redditClone/pkg/common/models/user"
 
 	"github.com/gin-gonic/gin"
 )
 
 func (h handler) GetPost(c *gin.Context) {
-	Post := Post.New()
+	var User models.User
+
+	var Post models.Votes
 	Post.UUID = c.Param("id")
 
 	result := h.DB.First(&Post)
